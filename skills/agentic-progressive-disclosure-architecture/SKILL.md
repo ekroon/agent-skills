@@ -28,78 +28,30 @@ This pattern is strongest in **Rust** and **Go** where module/package boundaries
 - Keep top-level files mostly declarative (exports, signatures, short docs).
 - Place heavy logic in deeper modules/files.
 - Re-export from higher layers to preserve ergonomic public APIs.
+- Use concrete implementations with forwarding at higher layers (avoid interface-only top-level patterns for this technique in Go).
 - Keep this orthogonal to existing clean-code practices (naming, testing, error handling, etc.).
 
-## Rust pattern
+## Recursive disclosure behavior
 
-Top-level crate API in `src/lib.rs`:
+Apply the same disclosure split at every depth:
 
-```rust
-//! Public API and architecture map.
-pub mod domain;
-pub mod util;
+1. A module exposes intent and API shape.
+2. It forwards or re-exports into child modules.
+3. Children repeat this pattern until leaf implementation files.
 
-pub use domain::{Plan, Planner}; // progressive API surface
-```
+This creates a navigable tree where each node progressively reveals detail.
 
-Split declarations from implementations:
+## Implementation examples (separate reference)
 
-```rust
-// src/domain/mod.rs
-mod planner_impl;
-pub struct Plan;
-pub struct Planner;
-impl Planner {
-    pub fn create(plan: Plan) -> Result<(), String> {
-        planner_impl::create(plan)
-    }
-}
-```
+- Rust example: `references/rust-module-forwarding.md`
+- Go example (concrete type + forwarding): `references/go-package-forwarding.md`
 
-```rust
-// src/domain/planner_impl.rs
-use super::Plan;
-pub(super) fn create(_plan: Plan) -> Result<(), String> { Ok(()) }
-```
+## Validation in skill design
 
-## Go pattern
+Benchmarking and deep performance validation belong to skill design and rollout evaluation, not core skill usage instructions.
 
-Top-level package file:
+Recommended checks:
 
-```go
-// package architecture exposes intent-first APIs.
-package architecture
-
-type Plan struct{}
-type Planner interface {
-	Create(Plan) error
-}
-```
-
-Deeper implementation package:
-
-```go
-package plannerimpl
-
-import "your/module/architecture"
-
-type Planner struct{}
-func (p Planner) Create(plan architecture.Plan) error { return nil }
-```
-
-## Proof strategy: tests and benchmarks
-
-Use tests and benchmarks to verify the architecture is practical, not only stylistic.
-
-- **Tests**: ensure re-exports and API contracts behave as expected.
-  - Rust: integration tests against top-level crate exports (`tests/`).
-  - Go: package tests that import only top-level package APIs.
-- **Benchmarks**: compare baseline vs progressive-disclosure layout to detect runtime or compile-time regressions.
-  - Rust: `cargo bench`
-  - Go: `go test -bench . ./...`
-
-Success criteria:
-
+- Tests assert callers can rely only on top-level APIs/re-exports.
 - Callers can use top-level APIs without importing leaf implementation modules.
-- Benchmarks show no unacceptable regression for critical paths.
 - Navigation remains fast via IDE/LSP symbols and definitions.
