@@ -9,15 +9,15 @@ import "your/module/architecture/plannerimpl"
 type Plan struct{}
 
 type Planner struct {
-	impl plannerimpl.Planner
+	plannerImpl plannerimpl.Planner
 }
 
 func NewPlanner() Planner {
-	return Planner{impl: plannerimpl.New()}
+	return Planner{plannerImpl: plannerimpl.New()}
 }
 
 func (p Planner) Create(plan Plan) error {
-	return p.impl.Create(plan)
+	return p.plannerImpl.Create(plan)
 }
 ```
 
