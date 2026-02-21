@@ -38,6 +38,7 @@ Apply the same disclosure split at every depth:
 1. A module exposes intent and API shape.
 2. It forwards or re-exports into child modules.
 3. Children repeat this pattern until leaf implementation files.
+4. Add an `AGENTS.md` at each level to describe the relevant context and constraints for that subtree.
 
 This creates a navigable tree where each node progressively reveals detail.
 
