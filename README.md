@@ -24,6 +24,12 @@ Design code for agentic coding with progressive disclosure: top-level modules ex
 
 Path: `skills/agentic-progressive-disclosure-architecture`
 
+### migrate-agents-to-copilot-instructions
+
+Migrate `AGENTS.md` guidance into GitHub Copilot repository-wide and path-specific instruction files while preserving scope.
+
+Path: `skills/migrate-agents-to-copilot-instructions`
+
 ## Quick start
 
 ```bash
