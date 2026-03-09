@@ -1,45 +1,23 @@
+> [!WARNING]
+> `ekroon/agent-skills` has moved into [`ekroon/copilot-catalog`](https://github.com/ekroon/copilot-catalog).
+> Standalone skills now live under `skills/` in the new repository.
+> If you use local path-based installs, replace `agent-skills/skills/...` with `copilot-catalog/skills/...`.
+
 # agent-skills
 
-Reusable agent skills that can be shared across projects and users.
+This repository is archived and kept only as a forwarding location.
 
-## Repository layout
+## New home
 
-- `skills/<skill-name>/SKILL.md` (required)
-- `skills/<skill-name>/scripts/` (optional executable helpers)
-- `skills/<skill-name>/references/` (optional supporting docs)
+All maintained content now lives in:
 
-This repository follows the Agent Skills format: https://agentskills.io/
+- https://github.com/ekroon/copilot-catalog
 
-## Available skills
+## Migration summary
 
-### codespaces-secret-sync
+- old: `agent-skills/skills/<name>`
+- new: `copilot-catalog/skills/<name>`
 
-Sync user Codespaces secret repository access so multiple secrets match one base secret.
+If you also used plugins locally, those now live under:
 
-Path: `skills/codespaces-secret-sync`
-
-### agentic-progressive-disclosure-architecture
-
-Design code for agentic coding with progressive disclosure: top-level modules expose intent and APIs first, deeper files reveal implementations on demand.
-
-Path: `skills/agentic-progressive-disclosure-architecture`
-
-### migrate-agents-to-copilot-instructions
-
-Migrate `AGENTS.md` guidance into GitHub Copilot repository-wide and path-specific instruction files while preserving scope.
-
-Path: `skills/migrate-agents-to-copilot-instructions`
-
-## Quick start
-
-```bash
-git clone https://github.com/ekroon/agent-skills.git
-cd agent-skills
-```
-
-Run the Codespaces sync skill script:
-
-```bash
-python3 skills/codespaces-secret-sync/scripts/sync_codespaces_secret_repos.py
-python3 skills/codespaces-secret-sync/scripts/sync_codespaces_secret_repos.py --apply
-```
+- `copilot-catalog/plugins/<name>`
